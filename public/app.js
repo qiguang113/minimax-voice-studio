@@ -1,11 +1,11 @@
 const STORAGE_KEY = "minimax-voice-studio-state";
 
 const demoText = [
-  "在6月12日，SpaceX正式登陆纳斯达克，AI和航天两大叙事叠加，让这次IPO刷新了全球纪录。",
-  "顺应人类命运共同体大势，分析讲解战略性新兴产业，欢迎回到因势分解，我是解读人之光，今天我们就来看看这场历史级的IPO吧。",
-  "从2002年拿着PayPal套现的1亿美元创办SpaceX，到2026年SpaceX成功上市，马斯克用了整整24年。",
-  "SpaceX这次的IPO发行价定在了每股135美元，一共发行约5.56亿股股票，募资规模达到了750亿美元。",
-  "不过，老马的缺席丝毫没有影响资本市场的热情。上市首日，SpaceX股价在盘中最高到达了170美元左右。"
+  "今天我们来聊一个很常见的问题：为什么同样一段内容，有人讲出来像说明书，有人讲出来却让人愿意听下去。",
+  "口播的关键不只是信息量，而是节奏、停顿和重点。先把一句话讲清楚，再让下一句话自然接上。",
+  "如果开头太满，观众很难进入状态。一个更好的方式，是先提出场景，再给出判断，最后补上理由。",
+  "写稿时可以把每一段控制在十五到三十秒之间，这样生成语音后更方便试听、修改和重排。",
+  "真正稳定的表达，不靠堆词，而靠清楚的结构。把复杂内容拆小，声音自然就会更有说服力。"
 ];
 
 const state = loadState() || {
@@ -119,7 +119,7 @@ function bindEvents() {
 
   els.importDemoButton.addEventListener("click", () => {
     const chapter = currentChapter();
-    chapter.title = "SpaceX IPO 口播";
+    chapter.title = "口播表达示例";
     chapter.segments = demoText.map((text) => ({ id: crypto.randomUUID(), text }));
     selectedSegmentId = chapter.segments[0].id;
     renderAll();
