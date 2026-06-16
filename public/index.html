@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MiniMax 口播工作室</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="rail" aria-label="主导航">
+        <div class="brand-mark" title="MiniMax Voice Studio">
+          <span></span>
+        </div>
+        <button class="rail-button active" title="故事工作室" aria-label="故事工作室">
+          <svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5v-16Z"/><path d="M4 5.5A2.5 2.5 0 0 1 6.5 8H20"/></svg>
+        </button>
+        <button class="rail-button" title="音色库" aria-label="音色库">
+          <svg viewBox="0 0 24 24"><path d="M12 3v18"/><path d="M7 8v8"/><path d="M17 7v10"/><path d="M3 10v4"/><path d="M21 10v4"/></svg>
+        </button>
+        <button class="rail-button" title="项目历史" aria-label="项目历史">
+          <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v6l4 2"/></svg>
+        </button>
+        <div class="rail-spacer"></div>
+        <button class="rail-button" title="设置" aria-label="设置">
+          <svg viewBox="0 0 24 24"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"/><path d="M19.4 15a1.8 1.8 0 0 0 .36 1.98l.05.05a2.1 2.1 0 0 1-2.97 2.97l-.05-.05a1.8 1.8 0 0 0-1.98-.36 1.8 1.8 0 0 0-1.1 1.66V21a2.1 2.1 0 0 1-4.2 0v-.08A1.8 1.8 0 0 0 8.4 19.3a1.8 1.8 0 0 0-1.98.36l-.05.05a2.1 2.1 0 0 1-2.97-2.97l.05-.05A1.8 1.8 0 0 0 3.8 14.7 1.8 1.8 0 0 0 2.14 13H2a2.1 2.1 0 0 1 0-4.2h.08A1.8 1.8 0 0 0 3.7 7.7a1.8 1.8 0 0 0-.36-1.98l-.05-.05A2.1 2.1 0 0 1 6.27 2.7l.05.05a1.8 1.8 0 0 0 1.98.36A1.8 1.8 0 0 0 9.4 1.45V1.4a2.1 2.1 0 0 1 4.2 0v.08A1.8 1.8 0 0 0 14.7 3.1a1.8 1.8 0 0 0 1.98-.36l.05-.05a2.1 2.1 0 0 1 2.97 2.97l-.05.05a1.8 1.8 0 0 0-.36 1.98 1.8 1.8 0 0 0 1.66 1.1H21a2.1 2.1 0 0 1 0 4.2h-.08A1.8 1.8 0 0 0 19.4 15Z"/></svg>
+        </button>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div class="topbar-left">
+            <strong>口播工作室</strong>
+            <span class="status-dot" id="keyStatus">检查密钥中</span>
+          </div>
+          <div class="topbar-actions">
+            <button class="ghost-button" id="importDemoButton">载入示例</button>
+            <button class="primary-button" id="generateButton">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7-11-7Z"/></svg>
+              逐段生成
+            </button>
+          </div>
+        </header>
+
+        <section class="studio-grid">
+          <aside class="chapter-panel">
+            <div class="panel-header">
+              <h2>章节</h2>
+              <button class="icon-button" id="addChapterButton" title="新增章节" aria-label="新增章节">
+                <svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+              </button>
+            </div>
+            <div class="chapter-list" id="chapterList"></div>
+          </aside>
+
+          <section class="editor-panel">
+            <div class="chapter-title-row">
+              <input id="chapterTitleInput" class="chapter-title-input" value="默认章节" aria-label="章节标题" />
+              <span id="autosaveLabel">已保存</span>
+            </div>
+            <div class="script-editor" id="scriptEditor"></div>
+          </section>
+
+          <aside class="settings-panel">
+            <div class="project-head">
+              <input id="projectNameInput" class="project-name" value="MiniMax 口播项目" aria-label="项目名" />
+              <button class="export-button" id="downloadButton">
+                <svg viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+                导出音频
+              </button>
+            </div>
+
+            <div class="tabs" role="tablist">
+              <button class="tab active" data-tab="voice" role="tab">音色</button>
+              <button class="tab" data-tab="clone" role="tab">克隆</button>
+              <button class="tab" data-tab="audio" role="tab">参数</button>
+              <button class="tab" data-tab="key" role="tab">密钥</button>
+            </div>
+
+            <div class="tab-page active" id="voiceTab">
+              <label class="field-label" for="voiceSearchInput">选择说话人</label>
+              <input id="voiceSearchInput" class="text-field" placeholder="搜索音色名称或 ID" />
+              <button class="secondary-button compact-button" id="syncVoicesButton">刷新账号音色</button>
+              <div class="voice-list" id="voiceList"></div>
+              <details class="manual-voice">
+                <summary>添加已有 MiniMax 音色 ID</summary>
+                <input id="manualVoiceName" class="text-field" placeholder="音色名称" />
+                <input id="manualVoiceId" class="text-field" placeholder="voice_id" />
+                <button class="secondary-button" id="saveManualVoiceButton">保存音色</button>
+              </details>
+            </div>
+
+            <div class="tab-page" id="cloneTab">
+              <label class="field-label" for="cloneNameInput">克隆音色名称</label>
+              <input id="cloneNameInput" class="text-field" value="我的专属口播声" />
+              <label class="field-label" for="cloneVoiceIdInput">自定义 voice_id</label>
+              <input id="cloneVoiceIdInput" class="text-field" placeholder="例如 my_brand_voice_01" />
+              <label class="field-label" for="audioFileInput">参考音频</label>
+              <input id="audioFileInput" class="file-field" type="file" accept="audio/*" />
+              <label class="field-label" for="clonePromptInput">参考文本</label>
+              <textarea id="clonePromptInput" class="small-textarea" placeholder="如果参考音频有对应文稿，可以贴在这里提升稳定性。"></textarea>
+              <label class="field-label" for="cloneDemoInput">试听文本</label>
+              <textarea id="cloneDemoInput" class="small-textarea" placeholder="可选。克隆完成后用这段话生成试听音频，会按 TTS 计费。"></textarea>
+              <button class="primary-button full-width" id="cloneButton">
+                <svg viewBox="0 0 24 24"><path d="M12 3v18"/><path d="M7 8v8"/><path d="M17 7v10"/><path d="M3 10v4"/><path d="M21 10v4"/></svg>
+                开始克隆
+              </button>
+            </div>
+
+            <div class="tab-page" id="audioTab">
+              <label class="field-label" for="modelSelect">模型</label>
+              <select id="modelSelect" class="text-field">
+                <option value="speech-2.8-hd">speech-2.8-hd</option>
+                <option value="speech-2.8-turbo">speech-2.8-turbo</option>
+                <option value="speech-2.6-hd">speech-2.6-hd</option>
+                <option value="speech-2.6-turbo">speech-2.6-turbo</option>
+                <option value="speech-02-hd">speech-02-hd</option>
+                <option value="speech-02-turbo">speech-02-turbo</option>
+                <option value="speech-01-hd">speech-01-hd</option>
+                <option value="speech-01-turbo">speech-01-turbo</option>
+              </select>
+              <div class="range-field">
+                <span>语速</span>
+                <input id="speedInput" type="range" min="0.5" max="2" step="0.05" value="1" />
+                <output id="speedValue">1.00x</output>
+              </div>
+              <div class="range-field">
+                <span>音量</span>
+                <input id="volumeInput" type="range" min="0.1" max="3" step="0.1" value="1" />
+                <output id="volumeValue">1.0</output>
+              </div>
+              <div class="range-field">
+                <span>音调</span>
+                <input id="pitchInput" type="range" min="-12" max="12" step="1" value="0" />
+                <output id="pitchValue">0</output>
+              </div>
+              <label class="field-label" for="sampleRateSelect">采样率</label>
+              <select id="sampleRateSelect" class="text-field">
+                <option value="32000">32000 Hz</option>
+                <option value="44100">44100 Hz</option>
+                <option value="24000">24000 Hz</option>
+                <option value="16000">16000 Hz</option>
+              </select>
+            </div>
+
+            <div class="tab-page" id="keyTab">
+              <label class="field-label" for="apiKeyInput">MiniMax API Key</label>
+              <input id="apiKeyInput" class="text-field" type="password" placeholder="留空则保持已保存的 key" autocomplete="off" />
+              <label class="field-label" for="groupIdInput">GroupId</label>
+              <input id="groupIdInput" class="text-field" placeholder="可选" />
+              <label class="field-label" for="baseUrlInput">API 域名</label>
+              <input id="baseUrlInput" class="text-field" value="https://api.minimaxi.com" />
+              <p class="config-note" id="configNote">密钥只保存在本机项目目录。</p>
+              <div class="key-actions">
+                <button class="primary-button full-width" id="saveConfigButton">保存到本地</button>
+                <button class="secondary-button full-width" id="clearConfigButton">清除本地密钥</button>
+              </div>
+            </div>
+          </aside>
+        </section>
+
+        <section class="timeline" aria-label="音频时间线">
+          <div class="timeline-toolbar">
+            <button class="icon-button" id="playButton" title="播放 / 暂停" aria-label="播放 / 暂停">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7-11-7Z"/></svg>
+            </button>
+            <span id="timeLabel">00:00 / 00:00</span>
+            <div class="timeline-spacer"></div>
+            <audio id="audioPlayer"></audio>
+          </div>
+          <div class="waveform" id="waveform">
+            <div class="wave-placeholder">生成后会在这里看到口播片段</div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
